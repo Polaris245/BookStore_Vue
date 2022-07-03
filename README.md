@@ -1,4 +1,2 @@
 # 工程简介
-
-# 延伸阅读
-
+基于js引入式Vue以及SpringBoot、Mybatis的书城
