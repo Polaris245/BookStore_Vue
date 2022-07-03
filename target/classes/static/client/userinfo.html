@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/base.css">
+    <link rel="shortcut icon" href="../static/img/book.svg">
+    <script type="text/javascript" src="../static/script/vue.js"></script>
+    <script type="text/javascript" src="../static/script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../static/script/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../static/script/axios.min.js"></script>
+    <!-- <script src="../static/script/element.js"></script> -->
+    <style>
+        #main{
+            width: 500px;
+            text-align: center;
+        }
+        .modal-footer{
+            justify-content: center;
+        }
+        .confirm_btn {
+            background-color: #d2515d;
+            border-color: #d2515d;
+        }
+        .confirm_btn:hover {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <div id="header">
+        <img class="logo_img" alt="" src="../static/img/book3.jpg" style="width: 328px; height: 100px">
+        <div class="nav">
+            <template v-if="user != null">
+                <li><a href="/client/userinfo.html">{{user.username}}</a></li>
+                <li><a href="/client/order.html">我的订单</a></li>
+            </template>
+            <template v-if="user == null">
+                <li><a href="/client/login.html">登录</a></li>
+            </template>
+            <li><a href="/client/cart.html">购物车</a></li>
+            <template v-if="user != null">
+                <template v-if="user.admin">
+                    <li><a href="/manager/index.html">后台管理</a></li>
+                </template>
+                <li><a href="" @click.prevent="logout">注销</a></li>
+            </template>
+            <li><a href="/client/index.html">首页</a>
+        </div>
+    </div>
+    <hr style="width: 100%; margin: 0 auto" />
+    <div id="main">
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" :value="user.username">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" v-model="user.password">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">邮箱</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="user.email">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">身份</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" :value="role">
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-warning" @click="changeInfo">提交更改</button>
+    </div>
+    <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelInfo2">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="jump"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    {{msg}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="jump">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    确认更改吗
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary confirm_btn" @click="sub">确认提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/script/userinfo.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="shortcut icon" href="../static/img/book.svg">
+    <script src="../static/script/vue.js"></script>
+    <script src="../static/script/axios.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <div class="container">
+        <div class="login-box">
+            <h2 class="login-title" @click="clearMsg">
+                <span>已有账号，去</span>登录
+            </h2>
+            <div class="error_msg">{{msg}}</div>
+            <form @submit.prevent="signInSub">
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="用户名" v-model.lazy="signIn.username">
+                    <input type="password" name="password" placeholder="密码" v-model.lazy="signIn.password">
+                </div>
+                <button type="submit">登录</button>
+            </form>
+        </div>
+        <div class="register-box slide-up">
+            <div class="center">
+                <h2 class="register-title" @click="clearMsg">
+                    <span>没有账号，去</span>注册
+                </h2>
+                <div class="error_msg">{{msg}}</div>
+                <form @submit.prevent="signUpSub">
+                    <div class="input-box">
+                        <input type="text" name="username" placeholder="用户名" v-model="signUp.username" @blur="isLegal">
+                        <input type="password" name="password" placeholder="密码" v-model="signUp.password" @blur="isLegal">
+                        <input type="password" name="repassword" placeholder="确认密码" v-model="signUp.repassword" @blur="isLegal">
+                        <input type="text" name="email" placeholder="邮箱" v-model="signUp.email" @blur="isLegal">
+                        <input type="text" name="code" placeholder="验证码" style="width: 140px;border:0" v-model="signUp.code" @blur="isLegal">
+                        <img id="code_img" alt="" src="/login/kaptcha"
+                        style="float: right; margin-right: 20px; width: 80px; height: 30px; padding-top: 8px; padding-bottom: 8px"
+                        @click="flushCode">
+                    </div>
+                    <button type="submit">注册</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/script/login.js"></script>
+</body>
+</html>

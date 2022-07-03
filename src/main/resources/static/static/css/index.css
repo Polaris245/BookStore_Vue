@@ -1,0 +1,59 @@
+#list_container{
+    margin: 5px auto 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.b_list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 300px;
+    margin: 5px 10px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.1);
+}
+
+.img_div{
+    height: 200px;
+    text-align: center;
+    margin:0;
+}
+
+.book_img {
+    height: 200px;
+    width:150px;
+}
+.book_info{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 10px auto;
+}
+.book_info div{
+    text-align: center;
+    margin: 2px auto 2px;
+}
+.book_info span{
+    white-space: nowrap;
+}
+.book_cond{
+    margin: 0 auto;
+    text-align: center;
+}
+.book_cond div{
+    display: inline-block;
+    width: fit-content;
+    margin: 10px 20px;
+}
+.book_cond input{
+    width: 80px;
+    text-align: center;
+    display: inline-block;
+}
+#search_name{
+    width: 200px;
+}
+#cartInfo div{
+    text-align: center;
+    margin: 10px auto;
+}

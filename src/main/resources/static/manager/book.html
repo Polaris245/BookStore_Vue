@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/base.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/page.css">
+    <link rel="shortcut icon" href="../static/img/book.svg">
+    <script type="text/javascript" src="../static/script/vue.js"></script>
+    <script type="text/javascript" src="../static/script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../static/script/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../static/script/axios.min.js"></script>
+    <!-- <script src="../static/script/element.js"></script> -->
+    <style>
+        th, td{
+            text-align: center;
+            vertical-align: middle;
+        }
+        .confirm_btn {
+            background-color: #d2515d;
+            border-color: #d2515d;
+        }
+        .confirm_btn:hover {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .modal-footer{
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <div id="header">
+        <img class="logo_img" alt="" src="../static/img/book3.jpg" style="width: 328px; height: 100px">
+        <span class="wel_word" style="color: #58ab7f">图书管理</span>
+        <div class="nav">
+            <li><a href="/manager/user.html">用户管理</a></li>
+            <li><a href="/manager/order.html">订单管理</a></li>
+            <li><a href="/client/index.html">返回首页</a><li>
+        </div>
+    </div>
+    <hr style="width: 100%; margin: 0 auto" />
+    <div id="main">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">名称</th>
+                <th scope="col">价格</th>
+                <th scope="col">作者</th>
+                <th scope="col">销量</th>
+                <th scope="col">库存</th>
+                <th scope="col" colspan="2">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="book in page.items" :key="book.id">
+                <th scope="row">{{book.name}}</th>
+                <td>{{book.price}}</td>
+                <td>{{book.author}}</td>
+                <td>{{book.sales}}</td>
+                <td>{{book.stock}}</td>
+                <td><button type="button" class="btn btn-outline-warning" @click="changeBook(book.id)">修改</button></td>
+                <td><button type="button" class="btn btn-outline-danger" @click="deleteBook(book)">删除</button></td>
+            </tr>
+            <tfoot>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button type="button" class="btn btn-outline-success" @click="addBook">添加图书</button></td>
+            </tfoot>
+            </tbody>
+        </table>
+    </div>
+    <div id="page">
+        <div style="width: 80%; margin: 20px auto; display: flex; justify-content: center; align-items: center">
+            <nav aria-label="Page navigation example" style="width: fit-content; margin: 0 10px">
+                <ul class="pagination">
+                    <template v-if="page.pageNo > 1">
+                        <li class="page-item"><a class="page-link" href="" @click.prevent="jumpToIndex">首页</a></li>
+                        <li class="page-item"><a class="page-link" href="" @click.prevent="lastPage">上一页</a></li>
+                    </template>
+                    <template v-if="page.pageTotal <= 5">
+                        <template v-for="i in page.pageTotal">
+                            <template v-if="i === page.pageNo">
+                                <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+                            </template>
+                            <template v-if="i !== page.pageNo">
+                                <li class="page-item"><a class="page-link" href="" @click.prevent="jumpTo(i)">{{i}}</a></li>
+                            </template>
+                        </template>
+                    </template>
+                    <template v-if="page.pageTotal > 5">
+                        <template v-if="page.pageNo <= 3">
+                            <template v-for=" i in 5">
+                                <template v-if="i === page.pageNo">
+                                    <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+                                </template>
+                                <template v-if="i !== page.pageNo">
+                                    <li class="page-item"><a class="page-link" href="" @click.prevent="jumpTo(i)">{{i}}</a></li>
+                                </template>
+                            </template>
+                        </template>
+                        <template v-else-if="page.pageNo > page.pageTotal-3">
+                            <template v-for="i in page.pageTotal" v-if="i >= page.pageTotal - 4">
+                                <template v-if="i === page.pageNo">
+                                    <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+                                </template>
+                                <template v-if="i !== page.pageNo">
+                                    <li class="page-item"><a class="page-link" href="" @click.prevent="jumpTo(i)">{{i}}</a></li>
+                                </template>
+                            </template>
+                        </template>
+                        <template v-else>
+                            <template v-for="i in page.pageNo + 2" v-if="i >= page.pageNo - 2">
+                                <template v-if="i === page.pageNo">
+                                    <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+                                </template>
+                                <template v-if="i !== page.pageNo">
+                                    <li class="page-item"><a class="page-link" href="" @click.prevent="jumpTo(i)">{{i}}</a></li>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                    <template v-if="page.pageNo < page.pageTotal">
+                        <li class="page-item"><a class="page-link" href="" @click.prevent="nextPage">下一页</a></li>
+                        <li class="page-item"><a class="page-link" href="" @click.prevent="jumpToEnd">末页</a></li>
+                    </template>
+                </ul>
+            </nav>
+            <div id="jump">
+                跳转到
+                <input type="number" class="form-control page_input" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" v-model="jump"> 页
+                <button type="button" class="btn btn-outline-success btn-sm" @click="jumpPage">确定</button>
+            </div>
+            <div class="alert alert-success page_alert" role="alert">
+                共{{page.pageTotal}}页，{{page.pageTotalCount}}条记录
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelInfo2">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    {{msg}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    {{msg}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary confirm_btn" @click="deleteBookConfirm">确定删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/script/bookManager.js"></script>
+</body>
+</html>

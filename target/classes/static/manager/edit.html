@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/base.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/page.css">
+    <link rel="shortcut icon" href="../static/img/book.svg">
+    <script type="text/javascript" src="../static/script/vue.js"></script>
+    <script type="text/javascript" src="../static/script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../static/script/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../static/script/axios.min.js"></script>
+    <!-- <script src="../static/script/element.js"></script> -->
+    <style>
+        th, td{
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table{
+            width: 50%;
+            margin: 0 auto;
+        }
+        .modal-footer{
+            justify-content: center;
+        }
+        .form-control{
+            text-align: center;
+            margin: 0 auto;
+        }
+        #main{
+            text-align: center;
+        }
+        .submit{
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <div id="header">
+        <img class="logo_img" alt="" src="../static/img/book3.jpg" style="width: 328px; height: 100px">
+        <span class="wel_word" style="color: #58ab7f">图书管理</span>
+        <div class="nav">
+            <li><a href="/manager/user.html">用户管理</a></li>
+            <li><a href="/manager/book.html">图书管理</a></li>
+            <li><a href="/manager/order.html">订单管理</a></li>
+            <li><a href="/client/index.html">返回首页</a><li>
+        </div>
+    </div>
+    <hr style="width: 100%; margin: 0 auto" />
+    <div id="main">
+        <table class="table">
+            <thead>
+
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="col">名称</th>
+                <td><input type="text" v-model="book.name" class="form-control" aria-describedby="inputGroup-sizing-sm"></td>
+            </tr>
+            <tr>
+                <th scope="col">价格</th>
+                <td><input type="text" v-model="book.price" class="form-control" aria-describedby="inputGroup-sizing-sm"></td>
+            </tr>
+            <tr>
+                <th scope="col">作者</th>
+                <td><input type="text" v-model="book.author" class="form-control" aria-describedby="inputGroup-sizing-sm"></td>
+            </tr>
+            <tr>
+                <th scope="col">销量</th>
+                <td><input type="text" v-model="book.sales" class="form-control" aria-describedby="inputGroup-sizing-sm"></td>
+            </tr>
+            <tr>
+                <th scope="col">库存</th>
+                <td><input type="text" v-model="book.stock" class="form-control" aria-describedby="inputGroup-sizing-sm"></td>
+            </tr>
+            <tr>
+                <th scope="col">封面</th>
+                <td><img :src="book.imgPath" height="150px" width="100px" alt=""></td>
+            </tr>
+            <tr>
+                <td><input type="file" name="file" class="form-control" ref="fileInput" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
+                <td><button type="button" class="btn btn-outline-warning" @click="reset">重置</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-outline-success submit" @click="submitBook">提交</button>
+    </div>
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelInfo2">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    {{msg}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/script/edit.js"></script>
+</body>
+</html>

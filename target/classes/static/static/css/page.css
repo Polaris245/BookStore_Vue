@@ -1,0 +1,28 @@
+.page-item.active .page-link{
+    background-color: #79bd9a;
+    border-color: #79bd9a;
+}
+.page-link:hover{
+    color: #79bd9a;
+}
+.page-link{
+    color: #79bd9a;
+}
+.page_alert{
+    width: fit-content;
+    padding: 6px;
+    margin: auto 10px;
+}
+.pagination{
+    margin: 0;
+}
+#jump{
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+}
+#jump input{
+    width: 60px;
+    text-align: center;
+    display: inline-block;
+}

@@ -1,0 +1,36 @@
+.modal-footer{
+    justify-content: center;
+}
+#empty{
+    width: fit-content;
+    text-align: center;
+    margin: auto;
+    font-size: 20px;
+}
+th, td{
+    text-align: center;
+    vertical-align: middle;
+}
+.confirm_btn {
+    background-color: #d2515d;
+    border-color: #d2515d;
+}
+.confirm_btn:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.updateInput {
+    width: 100px;
+    text-align: center;
+    margin: 0 auto;
+}
+.cart_info{
+    display: flex;
+}
+.number{
+    display: flex;
+    margin: 0 auto;
+}
+.number div{
+    margin: 0;
+}

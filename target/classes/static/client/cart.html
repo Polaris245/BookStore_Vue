@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>购物车</title>
+	 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/base.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/page.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/cart.css">
+    <link rel="shortcut icon" href="../static/img/book.svg">
+	<script type="text/javascript" src="../static/script/vue.js"></script>
+	<script type="text/javascript" src="../static/script/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../static/script/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="../static/script/axios.min.js"></script>
+    <script src="../static/script/element.js"></script>
+</head>
+<html>
+    <div id="root">
+        <div id="header">
+			<img class="logo_img" alt="" src="../static/img/book3.jpg" style="width: 328px; height: 100px">
+			<div class="nav">
+				<template v-if="user != null">
+					<li><a href="/client/userinfo.html">{{user.username}}</a> </li>
+					<li><a href="/client/order.html">我的订单</a></li>
+				</template>
+				<template v-if="user == null">
+					<li><a href="/client/login.html">登录</a></li>
+				</template>
+				<template v-if="user != null">
+					<template v-if="user.admin">
+						<li><a href="/manager/index.html">后台管理</a></li>
+					</template>
+					<li><a href="" @click.prevent="logout">注销</a></li>
+				</template>
+				<li><a href="/client/index.html">首页</a>
+			</div>
+		</div>
+		<hr style="width: 100%; margin: 0 auto" />
+        <div id="main">
+            <template v-if="cart.totalCount === 0">
+                <div class="alert alert-warning" role="alert" id="empty">
+                    购物车是空的~快去挑选心仪的书吧！
+                </div>
+            </template>
+            <template v-else>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">封面</th>
+                            <th scope="col">书籍名称</th>
+                            <th scope="col">数量</th>
+                            <th scope="col">单价</th>
+                            <th scope="col">金额</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in cart.items" :key="item.id">
+                            <th scope="row"><img :src="item.imgPath" height="100px" width="70px"></th>
+                            <td>{{item.name}}</td>
+                            <td><input type="number" :value="item.count" @blur="changeCount($event, item)" class="form-control updateInput" aria-describedby="inputGroup-sizing-sm"></td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.totalPrice}}</td>
+                            <td><button type="button" class="btn btn-outline-danger" @click="deleteItem(item)">删除</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </template>
+            <template v-if="cart.totalCount !== 0">
+                <div class="cart_info">
+                    <button type="button" class="btn btn-outline-warning clear" @click="clear">清空购物车</button>
+                    <div class="number">
+                        <div class="alert alert-success" role="alert" style="width: fit-content">
+                            购物车中共有{{cart.totalCount}}件商品，总金额{{cart.totalPrice}}元
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-success checkout" @click="checkOut">去结账</button>
+                </div>
+            </template>
+        </div>
+        <div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example">提示</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" @click="cancel" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: center">
+                        {{msg}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">取消</button>
+                        <button type="button" class="btn btn-primary confirm_btn" @click="sub(choose)">{{confirmMsg}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabelInfo2">提示</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="cancel"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: center">
+                        {{msg}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" style="text-align: center">
+            <span>{{msg}}</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="sub(choose)">查看订单</el-button>
+             </span>
+        </el-dialog>
+
+    </div>
+<script src="../static/script/cart.js"></script>
+<!--<script src="../static/script/nav.js"></script>-->
+</html>

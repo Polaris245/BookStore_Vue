@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookstore.dao.OrderDao">
+    <insert id="add" parameterType="com.example.bookstore.pojo.Order">
+        insert into `order` values (#{orderId}, #{createTime}, #{price}, #{status}, #{username})
+    </insert>
+    <delete id="delete">
+        delete from `order` where order_id  = #{orderId}
+    </delete>
+    <select id="pageCount" resultType="java.lang.Integer">
+        select count(*) from `order` where username  = #{username}
+    </select>
+    <select id="page" resultType="com.example.bookstore.pojo.Order">
+        select * from `order` where username = #{username} order by create_time DESC limit #{offset}, #{limit}
+    </select>
+    <update id="updateStatus">
+        update `order` set status = #{status} where order_id = #{orderId}
+    </update>
+    <select id="pageAllCount" resultType="java.lang.Integer">
+        select count(*) from `order`
+    </select>
+    <select id="pageAll" resultType="com.example.bookstore.pojo.Order">
+        select * from `order` order by create_time DESC limit #{offset}, #{limit}
+    </select>
+    <select id="getStatus" resultType="java.lang.Integer">
+        select status from `order` where order_id = #{orderId}
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/bookstore
+        username: root
+        password: 123456
+
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mappers/*xml
+  configuration:
+    map-underscore-to-camel-case: true

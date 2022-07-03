@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<div th:fragment="static">
+  <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link type="text/css" rel="stylesheet" th:href="@{/css/navigation.css}">
+  <script type="text/javascript" th:src="@{/script/jquery-1.7.2.js}"></script>
+  <script type="text/javascript" th:src="@{/script/bootstrap.bundle.min.js}"></script>
+  <link rel="shortcut icon" th:href="@{/img/book.svg}">
+</div>
+<div id="header">
+  <img class="logo_img" alt="" th:src="@{/img/book3.jpg}" style="width: 328px; height: 100px" >
+  <div class="nav">
+    <th:block th:if="${session.user == null}">
+      <li><a th:href="@{/login/index}">登录</a></li>
+    </th:block>
+    <th:block th:if="${session.user != null}">
+      <li><a th:text="${session.user.username}"></a></li>
+    </th:block>
+    <li><a>购物车</a></li>
+    <th:block th:if="${session.user != null}">
+      <li><a>我的订单</a></li>
+      <th:block th:if="${session.user.admin}">
+        <li><a>后台管理</a></li>
+      </th:block>
+      <li><a>注销</a></li>
+    </th:block>
+    <li><a>首页</a><li>
+  </div>
+</div>
+<hr style="width: 80%; margin: 0 auto 0"/>
+</body>
+</html>
